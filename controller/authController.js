@@ -18,6 +18,14 @@ exports.register = async (req, res, next) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'password did not match' });
     }
+    await User.create({
+
+      firstName,
+      lastName,
+      email,
+      password
+    });
+    res.status(200).json({ message: 'register success' });
   } catch (error) {
     next(error);
   }
