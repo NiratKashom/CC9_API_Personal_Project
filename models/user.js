@@ -1,5 +1,11 @@
 module.exports = (sequelize, Datatypes) => {
   const User = sequelize.define('User', {
+    id: {
+      type: Datatypes.STRING,
+      allowNull: false,
+      unique: true,
+      primaryKey: true
+    },
     email: {
       type: Datatypes.STRING,
       allowNull: false,
@@ -19,6 +25,11 @@ module.exports = (sequelize, Datatypes) => {
     password: {
       type: Datatypes.STRING,
       allowNull: false
+    },
+    isAdmin: {
+      type: Datatypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   },
     {
