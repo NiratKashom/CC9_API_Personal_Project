@@ -1,9 +1,9 @@
 // const { readFile, writeFile } = require('fs/promises');
 const { User } = require('../models');
-const { bcrypt } = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { genUserId } = require('../service/genIdService');
 
-const pathUsers = './db/MOCK_USER.json';
+// const pathUsers = './db/MOCK_USER.json';
 
 exports.authenticate = async (req, res, next) => {
 
@@ -35,28 +35,18 @@ exports.register = async (req, res, next) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'password did not match' });
     }
-    res.status(200).json(password);
-    // const hashedPassword = await bcrypt.hashSync(password, 10);
-    // res.status(200).json(hashedPassword);
-    // await User.create({
-    //   id: genUserId([firstName, lastName]),
-    //   firstName,
-    //   lastName,
-    //   email,
-    //   password: hashedPassword
-    // });
-    // res.status(200).json({ hashedPassword });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    await User.create({
+      id: genUserId([firstName, lastName]),
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword
+    });
+    res.status(200).json({ message: 'register success' });
   } catch (error) {
-    res.json(error);
+    res.json({ message: error.message });
   }
 };
-
-// exports.getUsers = async (req, res, next) => {
-//   try {
-
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 
