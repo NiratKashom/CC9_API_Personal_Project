@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const authRoute = require('./routes/authRoute');
-const { readFile, writeFile } = require('fs/promises');
+// const { readFile, writeFile } = require('fs/promises');
 
 // sync mysql
 // const { sequelize } = require('./models');
