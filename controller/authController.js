@@ -1,5 +1,5 @@
 // const { readFile, writeFile } = require('fs/promises');
-const { User } = require('../models');
+
 const bcrypt = require('bcryptjs');
 const { genUserId } = require('../service/genIdService');
 
@@ -13,7 +13,7 @@ exports.authenticate = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const { password, email } = req.body;
   // find email id DB
-  const user = await User.findOne({
+  const user = await Passenger.findOne({
     where: {
       email: email
     }
@@ -36,7 +36,7 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ message: 'password did not match' });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    await User.create({
+    await Passenger.create({
       id: genUserId([firstName, lastName]),
       firstName,
       lastName,

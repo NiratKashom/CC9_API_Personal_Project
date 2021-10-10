@@ -6,8 +6,7 @@ const authRoute = require('./routes/authRoute');
 
 // sync mysql
 // const { sequelize } = require('./models');
-// sequelize.sync({ force: true });
-
+// sequelize.sync();
 
 const port = process.env.PORT;
 
@@ -24,3 +23,31 @@ app.use('/', authRoute);
 
 
 app.listen(port, () => console.log('server is running on port: ' + port));
+
+
+// id: {
+//   type: Datatypes.STRING,
+//     allowNull: false,
+//       unique: true,
+//         primaryKey: true;
+// },
+// departureDate: {
+//   type: Datatypes.DATE,
+//     allowNull: false,
+// },
+// arrivalDate: {
+//   type: Datatypes.DATE,
+//     allowNull: false,
+// },
+// returnDate: {
+//   type: Datatypes.DATE,
+//     allowNull: false,
+// },
+// departure: {
+//   type: Datatypes.STRING,
+//     allowNull: false,
+// },
+// destination: {
+//   type: Datatypes.STRING,
+//     allowNull: false,
+// }

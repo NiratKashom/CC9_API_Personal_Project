@@ -1,5 +1,5 @@
 module.exports = (sequelize, Datatypes) => {
-  const User = sequelize.define('User', {
+  const Passenger = sequelize.define('Passenger', {
     id: {
       type: Datatypes.STRING,
       allowNull: false,
@@ -37,5 +37,16 @@ module.exports = (sequelize, Datatypes) => {
     }
   );
 
-  return User;
+  Passenger.associate = models => {
+    Passenger.hasMany(models.Reservation, {
+      foreignKey: {
+        name: 'passengerId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+  };
+
+  return Passenger;
 }
