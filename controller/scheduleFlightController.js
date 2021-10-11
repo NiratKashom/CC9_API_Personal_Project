@@ -61,19 +61,17 @@ exports.createFlight = async (req, res, next) => {
 //   }
 // };
 
-// exports.delList = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const rows = await List.destroy({
-//       where: {
-//         id,
-//         userId: req.user.id
-//       }
-//     });
-
-//     if (rows) return res.status(400).json({ message: 'fail to  delete list' });
-//     res.status(204).json();
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+exports.delFlight = async (req, res, next) => {
+  try {
+    const { flightId } = req.params;
+    const rows = await Flight.destroy({
+      where: {
+        id: flightId
+      }
+    });
+    if (!rows) return res.status(400).json({ message: 'fail to  delete' });
+    res.status(204).json({ message: 'delete success', rows });
+  } catch (error) {
+    next(error);
+  }
+};
