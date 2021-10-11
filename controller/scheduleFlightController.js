@@ -1,4 +1,5 @@
 const { Flight } = require('../models');
+const { genFlightId } = require('../service/genIdService');
 
 // find all Flight
 exports.getAllFlight = async (req, res, next) => {
@@ -25,18 +26,21 @@ exports.getFlightById = async (req, res, next) => {
   }
 };
 
-// exports.createList = async (req, res, next) => {
-//   try {
-//     const { title, status } = req.body;
-//     const list = await List.create({
-//       title, status, userId: req.user.id
-//     });
-//     res.status(201).json({ list });
+exports.createFlight = async (req, res, next) => {
+  try {
+    const body = req.body;
+    // console.log(newFlight);
+    const newFlight = await Flight.create({
+      ...body,
+      id: genFlightId(body.destination)
+    });
+    res.status(200).json({ message: 'create fligth success', newFlight });
 
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+  } catch (error) {
+    next(error);
+  }
+};
+
 // exports.editList = async (req, res, next) => {
 //   try {
 //     const { id } = req.params;
