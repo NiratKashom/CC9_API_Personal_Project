@@ -2,6 +2,8 @@
 
 const bcrypt = require('bcryptjs');
 const { genUserId } = require('../service/genIdService');
+const { Passenger } = require('../models');
+const jwt = require('jsonwebtoken');
 
 // const pathUsers = './db/MOCK_USER.json';
 
@@ -72,8 +74,8 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
       expiresIn: '30d'
     });
-
-    res.json({ message: 'login success', token });
+    console.log('login success');
+    res.json({ token });
   } catch (error) {
     next(error);
   }

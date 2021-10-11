@@ -6,8 +6,8 @@ const scheduleFlightRoute = require('./routes/scheduleFlightRoute');
 const serviceRoute = require('./routes/serviceRoute');
 
 // sync mysql
-const { sequelize } = require('./models');
-sequelize.sync();
+// const { sequelize } = require('./models');
+// sequelize.sync();
 
 const port = process.env.PORT;
 

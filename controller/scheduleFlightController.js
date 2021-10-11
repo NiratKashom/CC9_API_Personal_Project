@@ -19,7 +19,7 @@ exports.getFlightById = async (req, res, next) => {
         id: flightId
       }
     });
-    res.json({ flight });
+    res.json({ message: 'got by flight id ', flight });
   } catch (error) {
     res.json({ error });
   }
