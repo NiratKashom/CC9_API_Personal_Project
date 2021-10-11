@@ -2,11 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoute = require('./routes/authRoute');
-// const { readFile, writeFile } = require('fs/promises');
+const scheduleFlightRoute = require('./routes/scheduleFlightRoute');
 
 // sync mysql
 // const { sequelize } = require('./models');
-// sequelize.sync();
+// sequelize.sync({ force: true });
 
 const port = process.env.PORT;
 
@@ -21,33 +21,7 @@ app.get('/', (req, res) => {
 // auth route
 app.use('/', authRoute);
 
+app.use('/schedule-flight', scheduleFlightRoute);
 
 app.listen(port, () => console.log('server is running on port: ' + port));
 
-
-// id: {
-//   type: Datatypes.STRING,
-//     allowNull: false,
-//       unique: true,
-//         primaryKey: true;
-// },
-// departureDate: {
-//   type: Datatypes.DATE,
-//     allowNull: false,
-// },
-// arrivalDate: {
-//   type: Datatypes.DATE,
-//     allowNull: false,
-// },
-// returnDate: {
-//   type: Datatypes.DATE,
-//     allowNull: false,
-// },
-// departure: {
-//   type: Datatypes.STRING,
-//     allowNull: false,
-// },
-// destination: {
-//   type: Datatypes.STRING,
-//     allowNull: false,
-// }

@@ -1,0 +1,3 @@
+insert into fligths(id,departure_date,arrival_date,return_date,departure,destination,created_at,updated_at) values('0987','2022-05-19 22:59:00','2022-08-31 00:00:00','2022-12-29 13:01:00','earth','jupiter','2021-10-11 10:05:26','2021-10-11 10:05:28');
+insert into fligths(id,departure_date,arrival_date,return_date,departure,destination,created_at,updated_at) values('1234','2021-09-28 10:02:32','2021-10-20 05:02:00','2021-10-30 00:00:00','earth','moon','2021-10-11 10:03:04','2021-10-11 10:03:06');
+insert into fligths(id,departure_date,arrival_date,return_date,departure,destination,created_at,updated_at) values('5678','2021-12-08 19:30:00','2022-01-13 20:00:00','2022-01-28 16:37:00','earth','mars','2021-10-11 10:04:08','2021-10-11 10:04:10');
