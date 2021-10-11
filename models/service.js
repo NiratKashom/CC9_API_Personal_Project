@@ -11,6 +11,10 @@ module.exports = (sequelize, Datatypes) => {
     price: {
       type: Datatypes.INTEGER,
       allowNull: false,
+    },
+    serviceType: {
+      type: Datatypes.STRING,
+      allowNull: false,
     }
   },
     {

@@ -3,10 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const authRoute = require('./routes/authRoute');
 const scheduleFlightRoute = require('./routes/scheduleFlightRoute');
+const serviceRoute = require('./routes/serviceRoute');
 
 // sync mysql
-// const { sequelize } = require('./models');
-// sequelize.sync({ force: true });
+const { sequelize } = require('./models');
+sequelize.sync();
 
 const port = process.env.PORT;
 
@@ -22,6 +23,9 @@ app.get('/', (req, res) => {
 app.use('/', authRoute);
 
 app.use('/schedule-flight', scheduleFlightRoute);
+app.use('/service', serviceRoute);
 
 app.listen(port, () => console.log('server is running on port: ' + port));
+
+
 
