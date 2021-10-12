@@ -11,6 +11,10 @@ module.exports = (sequelize, Datatypes) => {
     amount: {
       type: Datatypes.INTEGER,
       allowNull: false,
+    },
+    price: {
+      type: Datatypes.INTEGER,
+      allowNull: false,
     }
   },
     {

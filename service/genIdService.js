@@ -10,6 +10,24 @@ exports.genUserId = (arr) => {
   return firstLetter + id;
 };
 
+exports.genFlightId = (dest) => {
+  let destName = '';
+  switch (dest) {
+    case 'moon':
+      destName = 'mon';
+      break;
+    case 'mars':
+      destName = 'mar';
+      break;
+    case 'jupiter':
+      destName = 'jup';
+      break;
+    default:
+      return;
+  }
+  const id = uuidv4().split('-').join('').slice(0, 15).toUpperCase();
+  return destName.toUpperCase() + id;
+};
 
 exports.genFlightId = (dest) => {
   let destName = '';
@@ -29,3 +47,10 @@ exports.genFlightId = (dest) => {
   const id = uuidv4().split('-').join('').slice(0, 15).toUpperCase();
   return destName.toUpperCase() + id;
 };
+
+exports.genReserveId = (passengerId, flightId) => {
+  return `${passengerId.slice(0, 7)}${flightId.slice(0, 7)}`;
+};
+
+
+

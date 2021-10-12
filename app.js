@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoute = require('./routes/authRoute');
 const scheduleFlightRoute = require('./routes/scheduleFlightRoute');
+const reservationRoute = require('./routes/reservationRoute');
 const serviceRoute = require('./routes/serviceRoute');
 
 // sync mysql
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/', authRoute);
 
 app.use('/schedule-flight', scheduleFlightRoute);
+app.use('/reservation', reservationRoute);
 app.use('/service', serviceRoute);
 
 app.listen(port, () => console.log('server is running on port: ' + port));
