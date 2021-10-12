@@ -1,30 +1,67 @@
-const { Reservation } = require('../models');
+const { Reservation, Passenger, Flight } = require('../models');
+
 const { genReserveId } = require('../service/genIdService');
 
-// find all Flight
-// exports.getAllFlight = async (req, res, next) => {
-//   try {
-//     const flights = await Flight.findAll();
-//     res.json({ flights });
-//   } catch (error) {
-//     res.json({ error });
-//   }
-// };
+
+exports.getAllReservation = async (req, res, next) => {
+  try {
+    const allReservation = await Reservation.findAll(
+      {
+        include: [
+          {
+            model: Flight,
+            attributes: [
+              "departureDate",
+              "arrivalDate",
+              "returnDate",
+              "departure",
+              "destination",
+            ],
+            require: true
+          }
+          // {
+          //   model: Passenger,
+          //   attributes: [
+          //     "email", "firstName", "lastName",
+          //   ],
+          //   require: true
+          // }
+        ]
+      }
+    );
+    res.status(200).json({ allReservation });
+  } catch (error) {
+    res.json({ error });
+  }
+};
 
 // find Flight by flightId
-// exports.getFlightById = async (req, res, next) => {
-//   try {
-//     const { flightId } = req.params;
-//     const flight = await Flight.findOne({
-//       where: {
-//         id: flightId
-//       }
-//     });
-//     res.json({ message: 'got by flight id ', flight });
-//   } catch (error) {
-//     res.json({ error });
-//   }
-// };
+exports.getReserveByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const reserveByUser = await Reservation.findAll({
+      where: {
+        passengerId: userId
+      },
+      include: [
+        {
+          model: Flight,
+          attributes: [
+            "departureDate",
+            "arrivalDate",
+            "returnDate",
+            "departure",
+            "destination",
+          ],
+          require: true
+        }
+      ]
+    });
+    res.json({ reserveByUser });
+  } catch (error) {
+    res.json({ error });
+  }
+};
 
 exports.createReservation = async (req, res, next) => {
   try {
