@@ -1,51 +1,48 @@
-// const { readFile, writeFile } = require('fs/promises');
-
 const bcrypt = require('bcryptjs');
 const { genUserId } = require('../service/genIdService');
 const { Passenger } = require('../models');
 const jwt = require('jsonwebtoken');
 
-// const pathUsers = './db/MOCK_USER.json';
 
-// exports.authenticate = async (req, res, next) => {
-//   try {
-//     // get request headers
-//     const { authorization } = req.headers;
-//     if (!authorization || !authorization.startsWith('Bearer')) {
-//       return res.status(401).json({
-//         message: 'you are unauthorlized'
-//       });
-//     }
-//     console.log(authorization);
+exports.authenticate = async (req, res, next) => {
+  try {
+    // get request headers
+    const { authorization } = req.headers;
+    if (!authorization || !authorization.startsWith('Bearer')) {
+      return res.status(401).json({
+        message: 'you are unauthorlized'
+      });
+    }
+    // console.log(authorization);
 
-//     const token = authorization.split(' ')[1];
-//     // console.log(token);
-//     if (!token) {
-//       return res.status(401).json({
-//         message: 'you are unauthorlized'
-//       });
-//     }
+    const token = authorization.split(' ')[1];
+    // console.log(token);
+    if (!token) {
+      return res.status(401).json({
+        message: 'you are unauthorlized'
+      });
+    }
 
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-//     const user = await User.findOne({
-//       where: {
-//         id: decoded.id
-//       }
-//     });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = await Passenger.findOne({
+      where: {
+        id: decoded.id
+      }
+    });
 
-//     if (!user) {
-//       return res.status(401).json({
-//         message: 'you are unauthorlized'
-//       });
-//     }
+    if (!user) {
+      return res.status(401).json({
+        message: 'you are unauthorlized'
+      });
+    }
 
-//     req.user = user;
-//     req.data = decoded;
-//     next();
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    req.user = user;
+    req.data = decoded;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
 
 // login
 exports.login = async (req, res, next) => {

@@ -19,13 +19,6 @@ exports.getAllReservation = async (req, res, next) => {
             ],
             require: true
           }
-          // {
-          //   model: Passenger,
-          //   attributes: [
-          //     "email", "firstName", "lastName",
-          //   ],
-          //   require: true
-          // }
         ]
       }
     );
@@ -148,31 +141,24 @@ exports.createReservation = async (req, res, next) => {
   }
 };
 
-// exports.editFlight = async (req, res, next) => {
-//   try {
-//     const {
-//       id,
-//       destination,
-//       returnDate,
-//       arrivalDate,
-//       departureDate } = req.body;
+exports.updateStatusReservation = async (req, res, next) => {
+  try {
+    const { status, reserveId } = req.body;
 
-//     const rows = await Flight.update({
-//       destination,
-//       returnDate,
-//       arrivalDate,
-//       departureDate
-//     }, {
-//       where: {
-//         id: id
-//       }
-//     });
-//     if (!rows) return res.status(400).json({ message: 'fail to update list' });
-//     res.status(200).json();
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    const rows = await Reservation.update(
+      {
+        status
+      }, {
+      where: {
+        id: reserveId
+      }
+    });
+    if (!rows) return res.status(400).json({ message: 'fail to update' });
+    res.status(200).json();
+  } catch (error) {
+    next(error);
+  }
+};
 
 // exports.delFlight = async (req, res, next) => {
 //   try {
