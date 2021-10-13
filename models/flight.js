@@ -39,8 +39,8 @@ module.exports = (sequelize, Datatypes) => {
         name: 'flightId',
         allowNull: false,
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT'
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     });
   };
 

@@ -43,8 +43,6 @@ exports.createFlight = async (req, res, next) => {
 
 exports.editFlight = async (req, res, next) => {
   try {
-    // const { id } = req.params;
-    // const { title, status } = req.body;
     const {
       id,
       destination,
@@ -72,13 +70,14 @@ exports.editFlight = async (req, res, next) => {
 exports.delFlight = async (req, res, next) => {
   try {
     const { flightId } = req.params;
+    // console.log(flightId);
     const rows = await Flight.destroy({
       where: {
         id: flightId
       }
     });
     if (!rows) return res.status(400).json({ message: 'fail to  delete' });
-    res.status(204).json({ message: 'delete success', rows });
+    // res.status(204).json({ message: 'delete success', rows });
   } catch (error) {
     next(error);
   }

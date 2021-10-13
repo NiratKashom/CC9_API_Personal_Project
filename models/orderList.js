@@ -28,8 +28,8 @@ module.exports = (sequelize, Datatypes) => {
         name: 'reservationId',
         allowNull: false,
       },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT'
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     });
     OrderList.belongsTo(models.Service, {
       foreignKey: {
