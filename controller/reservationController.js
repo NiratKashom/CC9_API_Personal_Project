@@ -65,7 +65,6 @@ exports.getReserveByUserId = async (req, res, next) => {
 exports.getReserveById = async (req, res, next) => {
   try {
     const { reserveId } = req.params;
-    console.log(reserveId);
     const getReserveById = await Reservation.findOne({
       where: {
         id: reserveId
@@ -75,11 +74,12 @@ exports.getReserveById = async (req, res, next) => {
           model: Flight,
           attributes: {
             exclude: [
-              'createdAt', 'updatedAt'
+              'createdAt', 'updatedAt', 'id'
             ]
           },
           require: true
-        }, {
+        },
+        {
           model: Passenger,
           attributes: [
             "email", "firstName", "lastName",
@@ -103,17 +103,22 @@ exports.getReserveById = async (req, res, next) => {
         },
       ]
     });
-    reserveById = {
+    reservationById = {
       id: getReserveById.id,
       passengerId: getReserveById.passengerId,
       flightId: getReserveById.flightId,
       status: getReserveById.status,
       payslipUrl: getReserveById.payslipUrl || null,
+      flight: {
+        ...getReserveById.Flight.dataValues
+      },
+      passenger: {
+        ...getReserveById.Passenger.dataValues
+      },
       orderList: [...orderList]
     };
     // console.log(orderByReserve);
-    res.json({ reserveById });
-    // res.json({ reserveById });
+    res.status(200).json({ reservationById });
   } catch (error) {
     res.json({ error });
   }
