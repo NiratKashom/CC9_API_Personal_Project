@@ -5,6 +5,7 @@ const reservationController = require('../controller/reservationController');
 
 router.get('/', reservationController.getAllReservation);
 router.get('/:userId', reservationController.getReserveByUserId);
+router.get('/reservationInfo/:reserveId', reservationController.getReserveById);
 router.post('/', reservationController.createReservation);
 // router.put('/:flightId', reservationController.editFlight);
 // router.delete('/:flightId', reservationController.delFlight);

@@ -35,7 +35,7 @@ exports.getAllReservation = async (req, res, next) => {
   }
 };
 
-// find Flight by flightId
+// get all resreve by userId
 exports.getReserveByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -61,6 +61,65 @@ exports.getReserveByUserId = async (req, res, next) => {
   }
 };
 
+// get one resreve by Id by user
+exports.getReserveById = async (req, res, next) => {
+  try {
+    const { reserveId } = req.params;
+    console.log(reserveId);
+    const getReserveById = await Reservation.findOne({
+      where: {
+        id: reserveId
+      },
+      include: [
+        {
+          model: Flight,
+          attributes: {
+            exclude: [
+              'createdAt', 'updatedAt'
+            ]
+          },
+          require: true
+        }, {
+          model: Passenger,
+          attributes: [
+            "email", "firstName", "lastName",
+          ],
+          require: true
+        }
+      ]
+    });
+    const orderList = await OrderList.findAll({
+      attributes: ['amount', 'price'],
+      where: {
+        reservationId: reserveId
+      },
+      include: [
+        {
+          model: Service,
+          attributes: [
+            'name', 'serviceType'
+          ],
+          require: true
+        },
+      ]
+    });
+    reserveById = {
+      id: getReserveById.id,
+      passengerId: getReserveById.passengerId,
+      flightId: getReserveById.flightId,
+      status: getReserveById.status,
+      payslipUrl: getReserveById.payslipUrl || null,
+      orderList: [...orderList]
+    };
+    // console.log(orderByReserve);
+    res.json({ reserveById });
+    // res.json({ reserveById });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+// create reservation
 exports.createReservation = async (req, res, next) => {
   try {
     const { passengerId, flightId, orderList } = req.body;
@@ -77,10 +136,7 @@ exports.createReservation = async (req, res, next) => {
       id: reserveId, passengerId, flightId
     });
     await OrderList.bulkCreate(orderForCreate);
-    // console.log(orderList);
-    // console.log(typeof orderList);
-    // console.log(testObj);
-    // console.log(typeof testObj);
+
     res.status(200).json({ message: 'create Reservation success' });
   } catch (error) {
     next(error);
