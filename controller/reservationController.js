@@ -1,4 +1,4 @@
-const { Reservation, Passenger, Flight } = require('../models');
+const { Reservation, Passenger, Flight, OrderList, Service } = require('../models');
 
 const { genReserveId } = require('../service/genIdService');
 
@@ -46,13 +46,11 @@ exports.getReserveByUserId = async (req, res, next) => {
       include: [
         {
           model: Flight,
-          attributes: [
-            "departureDate",
-            "arrivalDate",
-            "returnDate",
-            "departure",
-            "destination",
-          ],
+          attributes: {
+            exclude: [
+              'id', 'createAt', 'updateAt'
+            ]
+          },
           require: true
         }
       ]
@@ -67,11 +65,23 @@ exports.createReservation = async (req, res, next) => {
   try {
     const { passengerId, flightId, orderList } = req.body;
     const reserveId = genReserveId(passengerId, flightId);
-    const newReservation = await Reservation.create({
+
+    const orderForCreate = orderList.map(item => ({
+      reservationId: reserveId,
+      serviceId: item.serviceId,
+      flightId,
+      amount: item.amount,
+      price: item.price
+    }));
+    await Reservation.create({
       id: reserveId, passengerId, flightId
     });
-
-    res.status(200).json({ message: 'create Reservation success', newReservation });
+    await OrderList.bulkCreate(orderForCreate);
+    // console.log(orderList);
+    // console.log(typeof orderList);
+    // console.log(testObj);
+    // console.log(typeof testObj);
+    res.status(200).json({ message: 'create Reservation success' });
   } catch (error) {
     next(error);
   }
