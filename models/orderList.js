@@ -4,7 +4,7 @@ module.exports = (sequelize, Datatypes) => {
       type: Datatypes.INTEGER,
       allowNull: false,
     },
-    flightId: {
+    reservationId: {
       type: Datatypes.STRING,
       allowNull: false,
     },
@@ -28,8 +28,8 @@ module.exports = (sequelize, Datatypes) => {
         name: 'reservationId',
         allowNull: false,
       },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
     });
     OrderList.belongsTo(models.Service, {
       foreignKey: {
@@ -43,16 +43,3 @@ module.exports = (sequelize, Datatypes) => {
 
   return OrderList;
 };
-
-
-// user hasmany booking
-// booking belongsTo user -userId
-
-// flight hasmany booking
-// booking belongsTo flight -flightId
-
-// booking hasmany orderList
-// orderListbelongsTo booking-bookingId
-
-// service hasOne orderList
-// orderList belongsTo service -- serviceId

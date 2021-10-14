@@ -70,7 +70,6 @@ exports.editFlight = async (req, res, next) => {
 exports.delFlight = async (req, res, next) => {
   try {
     const { flightId } = req.params;
-    // console.log(flightId);
     const rows = await Flight.destroy({
       where: {
         id: flightId
