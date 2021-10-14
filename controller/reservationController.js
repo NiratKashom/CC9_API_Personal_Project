@@ -1,10 +1,15 @@
 const { Reservation, Passenger, Flight, OrderList, Service } = require('../models');
 
 const { genReserveId } = require('../service/genIdService');
+const fs = require('fs');
+const util = require('util');
+const cloundinary = require("cloudinary").v2;
 
+const uploadPromise = util.promisify(cloundinary.uploader.upload);
 
 exports.getAllReservation = async (req, res, next) => {
   try {
+
     const allReservation = await Reservation.findAll(
       {
         include: [
@@ -120,8 +125,13 @@ exports.getReserveById = async (req, res, next) => {
 // create reservation
 exports.createReservation = async (req, res, next) => {
   try {
-    const { passengerId, flightId, orderList } = req.body;
     const reserveId = genReserveId(passengerId, flightId);
+    const { passengerId, flightId, orderList } = req.body;
+    if (req.file) {
+      result = await uploadPromise(req.file.path);
+      console.log(result);
+      fs.unlinkSync(req.file.path);
+    }
 
     const orderForCreate = orderList.map(item => ({
       reservationId: reserveId,
@@ -131,7 +141,8 @@ exports.createReservation = async (req, res, next) => {
       price: item.price
     }));
     await Reservation.create({
-      id: reserveId, passengerId, flightId
+      id: reserveId, passengerId, flightId,
+      payslipUrl: result === null ? null : result.secure_url
     });
     await OrderList.bulkCreate(orderForCreate);
 
